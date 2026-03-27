@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="glass-panel">
+            <div class="header-content">
+                <h1>Algorithm <span>Visualizer</span></h1>
+                <div class="global-controls">
+                    <button id="toggleTheme" class="icon-btn" title="Toggle Light/Dark Theme">
+                        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
+                    <button id="toggleSound" class="icon-btn" title="Toggle Sound Effects">
+                        <svg id="sound-on-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        <svg id="sound-off-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar Controls -->
+            <aside class="controls-panel glass-panel">
+                <div class="control-group">
+                    <label for="algorithmSelect">Algorithm</label>
+                    <div class="custom-select">
+                        <select id="algorithmSelect">
+                            <option value="bubble">Bubble Sort</option>
+                            <option value="selection">Selection Sort</option>
+                            <option value="insertion">Insertion Sort</option>
+                            <option value="merge">Merge Sort</option>
+                            <option value="quick">Quick Sort</option>
+                            <option value="heap">Heap Sort</option>
+                            <option value="counting">Counting Sort</option>
+                            <option value="radix">Radix Sort</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="arraySize">Array Size: <span id="sizeValue">50</span></label>
+                    <input type="range" id="arraySize" min="10" max="150" value="50" class="slider">
+                </div>
+
+                <div class="control-group">
+                    <label for="speedControl">Animation Speed: <span id="speedValue">Normal</span></label>
+                    <input type="range" id="speedControl" min="1" max="100" value="50" class="slider">
+                </div>
+
+                <div class="action-buttons">
+                    <button id="generateBtn" class="btn btn-secondary">Generate New Array</button>
+                    <div class="playback-controls">
+                        <button id="startBtn" class="btn btn-primary">Start Sorting</button>
+                        <button id="pauseBtn" class="btn btn-warning" disabled>Pause</button>
+                        <button id="stepBtn" class="btn btn-info" disabled title="Step Forward">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                        </button>
+                    </div>
+                    <button id="resetBtn" class="btn btn-danger" disabled>Reset</button>
+                </div>
+
+                <div class="complexity-panel">
+                    <h3>Time Complexity</h3>
+                    <div class="complexity-stat"><span class="label">Best:</span> <span id="timeBest" class="value badge">O(n)</span></div>
+                    <div class="complexity-stat"><span class="label">Average:</span> <span id="timeAverage" class="value badge">O(n²)</span></div>
+                    <div class="complexity-stat"><span class="label">Worst:</span> <span id="timeWorst" class="value badge">O(n²)</span></div>
+                    <h3>Space Complexity</h3>
+                    <div class="complexity-stat"><span class="label">Worst:</span> <span id="spaceWorst" class="value badge">O(1)</span></div>
+                </div>
+
+                <div class="stats-panel">
+                    <h3>Live Stats</h3>
+                    <div class="stat"><span class="label">Comparisons:</span> <span id="comparisonsCount" class="value">0</span></div>
+                    <div class="stat"><span class="label">Swaps / Writes:</span> <span id="swapsCount" class="value">0</span></div>
+                </div>
+            </aside>
+
+            <!-- Visualizer Area -->
+            <main class="visualizer-area">
+                <div class="canvas-container glass-panel">
+                    <div id="arrayContainer" class="array-container"></div>
+                    <div id="countArrayContainer" class="array-container secondary" style="display: none;"></div>
+                </div>
+                
+                <div class="legend glass-panel">
+                    <div class="legend-item"><span class="color-box base"></span> Unsorted</div>
+                    <div class="legend-item"><span class="color-box compare"></span> Comparing</div>
+                    <div class="legend-item"><span class="color-box swap"></span> Swapping/Writing</div>
+                    <div class="legend-item"><span class="color-box sorted"></span> Sorted</div>
+                </div>
+
+                <div class="info-panel glass-panel">
+                    <h2 id="algoTitle">Bubble Sort</h2>
+                    <p id="algoDescription">A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="algorithms/bubbleSort.js"></script>
+    <script src="algorithms/selectionSort.js"></script>
+    <script src="algorithms/insertionSort.js"></script>
+    <script src="algorithms/mergeSort.js"></script>
+    <script src="algorithms/quickSort.js"></script>
+    <script src="algorithms/heapSort.js"></script>
+    <script src="algorithms/countingSort.js"></script>
+    <script src="algorithms/radixSort.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
